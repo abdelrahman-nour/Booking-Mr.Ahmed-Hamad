@@ -32,83 +32,135 @@ body {
 /* =========================================
    HISTORY BACKGROUND
 ========================================= */
-.science-bg {
+.history-bg {
   position: fixed;
+
   inset: 0;
-  z-index: 0;
+
   overflow: hidden;
+
+  z-index: 0;
+
   pointer-events: none;
 }
-
-.science-grid {
+.papyrus {
   position: absolute;
+
   inset: 0;
-  background-image:
-    linear-gradient(rgba(212, 175, 55, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(212, 175, 55, 0.025) 1px, transparent 1px);
-  background-size: 55px 55px;
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    black 15%,
-    black 85%,
-    transparent
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    black 15%,
-    black 85%,
-    transparent
-  );
-}
 
-.history-symbol {
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  opacity: 0.07;
+
+  mix-blend-mode: overlay;
+}
+.islamic {
   position: absolute;
-  color: #d4af37;
-  opacity: 0.075;
-  user-select: none;
-  will-change: transform;
-  animation: historyFloat 10s ease-in-out infinite;
+
+  inset: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  opacity: 0.08;
+
+  mix-blend-mode: screen;
+
+  animation: slowMove 80s linear infinite;
+}
+.hiero-left {
+  position: absolute;
+
+  left: 0;
+
+  top: 0;
+
+  height: 100%;
+
+  opacity: 0.12;
+}
+.hiero-right {
+  position: absolute;
+
+  right: 0;
+
+  top: 0;
+
+  height: 100%;
+
+  opacity: 0.12;
+
+  transform: scaleX(-1);
+}
+.column-left {
+  position: absolute;
+
+  left: 0;
+
+  bottom: 0;
+
+  height: 100%;
+
+  opacity: 0.25;
 }
 
-.history-one {
-  top: 7%;
-  left: 5%;
-  font-size: 105px;
-}
-.history-two {
-  top: 20%;
-  right: 6%;
-  font-size: 90px;
-  animation-delay: -3s;
-}
-.history-three {
-  bottom: 8%;
-  left: 10%;
-  font-size: 110px;
-  animation-delay: -5s;
-}
-.history-four {
-  right: 7%;
-  bottom: 12%;
-  font-size: 82px;
-  animation-delay: -2s;
-}
-.history-five {
-  top: 48%;
-  left: 4%;
-  font-size: 92px;
-  animation-delay: -7s;
-}
+.column-right {
+  position: absolute;
 
-@keyframes historyFloat {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
+  right: 0;
+
+  bottom: 0;
+
+  height: 100%;
+
+  opacity: 0.25;
+}
+.temple {
+  position: absolute;
+
+  bottom: 0;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 100%;
+
+  opacity: 0.18;
+}
+.history-bg::before {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+
+  top: -300px;
+
+  transform: translateX(-50%);
+
+  width: 1200px;
+
+  height: 700px;
+
+  background: radial-gradient(rgba(212, 175, 55, 0.25), transparent 70%);
+
+  filter: blur(80px);
+}
+@keyframes slowMove {
+  from {
+    transform: translateY(0);
   }
-  50% {
-    transform: translate3d(0, -22px, 0) rotate(6deg);
+
+  to {
+    transform: translateY(-150px);
   }
 }
 
