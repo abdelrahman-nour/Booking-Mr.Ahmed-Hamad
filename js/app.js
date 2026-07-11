@@ -9,92 +9,101 @@ const schedulesContainer = document.getElementById("schedulesContainer");
 const teacherWhatsAppNumber = "201278941436"; // غيّر الرقم لرقم أستاذ أحمد حمد
 
 /* SCHEDULES DATA */
-
+let selectedGroup = null;
 const schedules = {
   prep1: [
     {
-      day: "السبت",
-      time: "7 مساءً",
+      group: "المجموعة الأولى",
+      day: "الأحد - الثلاثاء - الخميس",
+      time: "2:00",
     },
 
     {
-      day: "الثلاثاء",
-      time: "7 مساءً",
+      group: "المجموعة الثانية",
+      day: "الأحد - الثلاثاء - الخميس",
+      time: "3:00",
+    },
+
+    {
+      group: "المجموعة الثالثة",
+      day: "الأحد - الثلاثاء - الخميس",
+      time: "4:00",
     },
   ],
 
   prep2: [
     {
-      day: "الأحد",
-      time: "5 مساءً",
+      group: "المجموعة الأولى",
+      day: "الأحد - الثلاثاء - الخميس",
+      time: "5:00",
     },
 
     {
-      day: "الأربعاء",
-      time: "5 مساءً",
+      group: "المجموعة الثانية",
+      day: "الأحد - الثلاثاء -الخميس",
+      time: "6:00",
+    },
+
+    {
+      group: "المجموعة الثالثة",
+      day: "الأحد - الثلاثاء - الخميس",
+      time: "7:00",
     },
   ],
 
   prep3: [
     {
-      day: "السبت",
-      time: "5 مساءً",
+      group: "المجموعة الأولى",
+      day: "الأحد - الثلاثاء - الخميس",
+      time: "11:00",
     },
 
     {
-      day: "الإثنين",
-      time: "5 مساءً",
+      group: "المجموعة الثانية",
+      day: "الأحد - الثلاثاء - الخميس",
+      time: "12:30",
     },
 
     {
-      day: "الأربعاء",
-      time: "5 مساءً",
+      group: "المجموعة الثالثة",
+      day: "السبت - الإثنين - الأربعاء",
+      time: "11:30",
     },
   ],
 
   sec1: [
     {
-      day: "الأحد",
-      time: "7 مساءً",
+      group: "المجموعة الأولى",
+      day: "السبت - الإثنين - الأربعاء",
+      time: "5:00",
     },
 
     {
-      day: "الثلاثاء",
-      time: "7 مساءً",
+      group: "المجموعة الثانية",
+      day: "السبت - الإثنين - الأربعاء",
+      time: "6:00",
     },
   ],
 
   sec2: [
     {
-      day: "السبت",
-      time: "12 ظهرًا",
+      group: "المجموعة الأولى",
+      day: "السبت - الإثنين - الأربعاء",
+      time: "1:00",
     },
 
     {
-      day: "الإثنين",
-      time: "12 ظهرًا",
-    },
-
-    {
-      day: "الأربعاء",
-      time: "12 ظهرًا",
+      group: "المجموعة الثانية",
+      day: "السبت - الإثنين - الأربعاء",
+      time: "2:30",
     },
   ],
 
   sec3: [
     {
-      day: "الأحد",
-      time: "12 ظهرًا",
-    },
-
-    {
-      day: "الثلاثاء",
-      time: "12 ظهرًا",
-    },
-
-    {
-      day: "الخميس",
-      time: "12 ظهرًا",
+      group: "المجموعة الأولى",
+      day: "السبت - الإثنين - الأربعاء",
+      time: "10:00 صباحًا",
     },
   ],
 };
@@ -243,9 +252,9 @@ function validateGrade() {
 function renderSchedules(grade) {
   schedulesContainer.innerHTML = "";
 
-  const gradeSchedules = schedules[grade];
+  selectedGroup = null;
 
-  /*مفيش ملف متحدد */
+  const gradeSchedules = schedules[grade];
 
   if (!gradeSchedules) {
     schedulesSection.classList.add("hidden");
@@ -253,45 +262,67 @@ function renderSchedules(grade) {
     return;
   }
 
-  /*كرت مواعيد */
-
   gradeSchedules.forEach(function (schedule) {
-    const scheduleCard = document.createElement("div");
+    const card = document.createElement("div");
 
-    scheduleCard.className = `
-        p-4
-        rounded-xl
-        border
-        border-amber-300/15
-        bg-[#1a1008]/70
-        text-center
-        cursor-default
-      `;
+    card.className = `
+      schedule-card
+      p-5
+      rounded-2xl
+      border
+      border-amber-300/15
+      bg-[#1a1008]/70
+      cursor-pointer
+      transition-all
+      duration-300
+      hover:border-amber-300
+      hover:-translate-y-1
+      relative
+    `;
 
-    scheduleCard.innerHTML = `
-        <strong
-          class="
-            block
-            text-white
-            text-sm
-            mb-1
-          "
-        >
-          ${schedule.day}
-        </strong>
+    card.innerHTML = `
 
+      <div class="absolute top-4 left-4 hidden check-icon">
 
-        <span
-          class="
-            text-amber-300
-            text-xs
-          "
-        >
-          ${schedule.time}
-        </span>
-      `;
+        <i class="fa-solid fa-circle-check text-amber-300 text-xl"></i>
 
-    schedulesContainer.appendChild(scheduleCard);
+      </div>
+
+      <h3 class="text-white font-bold mb-2">
+
+        ${schedule.group}
+
+      </h3>
+
+      <p class="text-gray-300 text-sm mb-3">
+
+        ${schedule.day}
+
+      </p>
+
+      <p class="text-amber-300 font-bold">
+
+        الساعة:  ${schedule.time}
+
+      </p>
+
+    `;
+
+    card.addEventListener("click", function () {
+      document.querySelectorAll(".schedule-card").forEach(function (c) {
+        c.classList.remove("active");
+
+        c.querySelector(".check-icon").classList.add("hidden");
+      });
+
+      card.classList.add("active");
+
+      card.querySelector(".check-icon").classList.remove("hidden");
+
+      selectedGroup = schedule;
+    });
+
+    schedulesContainer.appendChild(card);
   });
 
   schedulesSection.classList.remove("hidden");
@@ -300,6 +331,8 @@ function renderSchedules(grade) {
 /*Grade Change */
 
 gradeSelect.addEventListener("change", function () {
+  selectedGroup = null;
+
   validateGrade();
 
   renderSchedules(gradeSelect.value);
@@ -402,7 +435,11 @@ bookingForm.addEventListener("submit", function (event) {
   const isGradeValid = validateGrade();
 
   /*Check Form */
+  if (!selectedGroup) {
+    alert("من فضلك اختر المجموعة المناسبة.");
 
+    return;
+  }
   const isFormValid =
     isNameValid &&
     isStudentPhoneValid &&
@@ -435,31 +472,29 @@ bookingForm.addEventListener("submit", function (event) {
     grade: gradeSelect.options[gradeSelect.selectedIndex].text,
   };
 
-  const gradeSchedules = schedules[gradeSelect.value];
-
-  const formattedSchedules = gradeSchedules
-    .map(function (schedule) {
-      return `• ${schedule.day} - ${schedule.time}`;
-    })
-    .join("\n");
+  const formattedSchedule = `
+${selectedGroup.group}
+${selectedGroup.day}
+${selectedGroup.time}
+`.trim();
 
   /* =====================================
    WHATSAPP MESSAGE
 ===================================== */
 
   const whatsappMessage = `
- تأكيد حجز أستاذ أحمد حمد دفعة 2027
+تأكيد حجز أستاذ أحمد حمد دفعة 2027
 
- اسم الطالب:
+اسم الطالب:
 ${formData.studentName}
- رقم تليفون الطالب:
+رقم تليفون الطالب:
 ${formData.studentPhone}
- رقم تليفون ولي الأمر:
+رقم تليفون ولي الأمر:
 ${formData.parentPhone}
- الصف الدراسي:
+الصف الدراسي:
 ${formData.grade}
- مواعيد الصف:
-${formattedSchedules}
+المجموعة المختارة:
+${formattedSchedule}
 ━━━━━━━━━━━━━━
 تم تسجيل البيانات بواسطة موقع أستاذ أحمد حمد
 `.trim();
@@ -472,7 +507,7 @@ ${formattedSchedules}
 
   /*Reset Form */
   bookingForm.reset();
-
+  selectedGroup = null;
   /* Remove Validation Errors */
 
   document.querySelectorAll(".validation-error").forEach(function (error) {
@@ -495,7 +530,9 @@ ${formattedSchedules}
   /* Clear Schedules */
 
   schedulesContainer.innerHTML = "";
-
+  document.querySelectorAll(".schedule-card").forEach(function (card) {
+    card.classList.remove("active");
+  });
   schedulesSection.classList.add("hidden");
 });
 
